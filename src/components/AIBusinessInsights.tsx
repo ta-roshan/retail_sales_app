@@ -8,6 +8,7 @@ import { Sparkles, Loader2, Download, AlertCircle, FileText, CheckCircle } from 
 import { RetailWeeklySales } from "../types";
 
 interface AIBusinessInsightsProps {
+  key?: any;
   filteredData: RetailWeeklySales[];
   overallMetrics: {
     netSales: number;

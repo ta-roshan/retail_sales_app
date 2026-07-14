@@ -21,6 +21,7 @@ export default function App() {
   const [weeklySales, setWeeklySales] = useState<RetailWeeklySales[]>(() => getSampleWeeklySales());
   const [storeMaster, setStoreMaster] = useState<StoreMaster[]>(() => SAMPLE_STORES);
   const [isUsingSampleData, setIsUsingSampleData] = useState(true);
+  const [aiReportKey, setAiReportKey] = useState(0);
 
   // Global filters state
   const [filters, setFilters] = useState<GlobalFilters>({
@@ -35,17 +36,20 @@ export default function App() {
   const handleWeeklySalesLoaded = (data: RetailWeeklySales[]) => {
     setWeeklySales(data);
     setIsUsingSampleData(false);
+    setAiReportKey((prev) => prev + 1);
   };
 
   const handleStoreMasterLoaded = (data: StoreMaster[]) => {
     setStoreMaster(data);
     setIsUsingSampleData(false);
+    setAiReportKey((prev) => prev + 1);
   };
 
   const handleResetToSample = () => {
     setWeeklySales(getSampleWeeklySales());
     setStoreMaster(SAMPLE_STORES);
     setIsUsingSampleData(true);
+    setAiReportKey((prev) => prev + 1);
     // Clear filters as well
     setFilters({
       weeks: [],
@@ -280,6 +284,7 @@ export default function App() {
           {/* AI Intelligence - 5/12 width */}
           <div className="lg:col-span-5" id="grid-ai-insights">
             <AIBusinessInsights
+              key={aiReportKey}
               filteredData={filteredSales}
               overallMetrics={kpiMetrics}
             />
