@@ -1,0 +1,6 @@
+{
+  "name": "Retail Analytics Dashboard",
+  "description": "An interactive retail analytics dashboard with CSV data ingestion, global multi-select filters, key performance indicators (KPIs), advanced Recharts visualizations, and automated server-side Gemini AI business reports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
