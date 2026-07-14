@@ -22,6 +22,7 @@ import {
 } from "recharts";
 import { RetailWeeklySales } from "../types";
 import { TrendingUp, Map, LayoutGrid, Award, AlertTriangle } from "lucide-react";
+import { parseDateToTimestamp } from "../utils";
 
 interface VisualizationsProps {
   data: RetailWeeklySales[];
@@ -43,6 +44,9 @@ export default function Visualizations({ data }: VisualizationsProps) {
     const grouped: Record<string, { week: string; netSales: number; target: number }> = {};
     data.forEach((row) => {
       const week = row.week_start_date;
+      if (!week || week.trim() === "" || week.toLowerCase().includes("invalid") || week.toLowerCase() === "null" || week.toLowerCase() === "undefined") {
+        return; // Skip invalid or empty dates
+      }
       if (!grouped[week]) {
         grouped[week] = { week, netSales: 0, target: 0 };
       }
@@ -50,7 +54,7 @@ export default function Visualizations({ data }: VisualizationsProps) {
       grouped[week].target += row.sales_target;
     });
 
-    return Object.values(grouped).sort((a, b) => a.week.localeCompare(b.week));
+    return Object.values(grouped).sort((a, b) => parseDateToTimestamp(a.week) - parseDateToTimestamp(b.week));
   }, [data]);
 
   // 2. Sales by Region: Pie/Donut Chart

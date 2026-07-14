@@ -14,6 +14,9 @@ interface KPICardsProps {
 export default function KPICards({ metrics }: KPICardsProps) {
   // Format currency helpers
   const formatCurrency = (val: number) => {
+    if (val === undefined || val === null || isNaN(val)) {
+      return "$0.00";
+    }
     if (val >= 1000000) {
       return `$${(val / 1000000).toFixed(2)}M`;
     }
@@ -23,10 +26,15 @@ export default function KPICards({ metrics }: KPICardsProps) {
     return `$${val.toFixed(2)}`;
   };
 
+  const targetAchievement = isNaN(metrics.targetAchievement) ? 0 : metrics.targetAchievement;
+  const averageTransactionValue = isNaN(metrics.averageTransactionValue) ? 0 : metrics.averageTransactionValue;
+  const returnRate = isNaN(metrics.returnRate) ? 0 : metrics.returnRate;
+  const discountRate = isNaN(metrics.discountRate) ? 0 : metrics.discountRate;
+
   const targetAchColor = 
-    metrics.targetAchievement >= 100 
+    targetAchievement >= 100 
       ? { text: "text-emerald-700", bg: "bg-emerald-50", border: "border-emerald-100", bar: "bg-emerald-500" }
-      : metrics.targetAchievement >= 85
+      : targetAchievement >= 85
         ? { text: "text-amber-700", bg: "bg-amber-50", border: "border-amber-100", bar: "bg-amber-500" }
         : { text: "text-rose-700", bg: "bg-rose-50", border: "border-rose-100", bar: "bg-rose-500" };
 
@@ -62,13 +70,13 @@ export default function KPICards({ metrics }: KPICardsProps) {
         </div>
         <div className="mt-4">
           <span className="text-2xl font-bold text-slate-800 tracking-tight block">
-            {metrics.targetAchievement.toFixed(1)}%
+            {targetAchievement.toFixed(1)}%
           </span>
           <div className="flex flex-col gap-1.5 mt-2 w-full">
             <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
               <div 
                 className={`h-full ${targetAchColor.bar} transition-all duration-500`}
-                style={{ width: `${Math.min(metrics.targetAchievement, 100)}%` }}
+                style={{ width: `${Math.min(targetAchievement, 100)}%` }}
               ></div>
             </div>
             <span className="text-[10px] font-semibold text-slate-400 block truncate">
@@ -88,7 +96,7 @@ export default function KPICards({ metrics }: KPICardsProps) {
         </div>
         <div className="mt-4">
           <span className="text-2xl font-bold text-slate-800 tracking-tight block">
-            ${metrics.averageTransactionValue.toFixed(2)}
+            ${averageTransactionValue.toFixed(2)}
           </span>
           <div className="flex items-center gap-1.5 mt-2">
             <span className="text-[10px] font-semibold text-slate-400">
@@ -102,13 +110,13 @@ export default function KPICards({ metrics }: KPICardsProps) {
       <div className="bg-white rounded-xl border border-slate-100 p-5 shadow-xs flex flex-col justify-between transition-all hover:shadow-sm">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Return Rate</span>
-          <div className={`p-2 rounded-lg ${metrics.returnRate > 8 ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-600"}`}>
+          <div className={`p-2 rounded-lg ${returnRate > 8 ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-600"}`}>
             <Undo2 className="w-4 h-4" />
           </div>
         </div>
         <div className="mt-4">
           <span className="text-2xl font-bold text-slate-800 tracking-tight block">
-            {metrics.returnRate.toFixed(2)}%
+            {returnRate.toFixed(2)}%
           </span>
           <div className="flex items-center gap-1.5 mt-2">
             <span className="text-[10px] font-semibold text-slate-400 block truncate">
@@ -128,7 +136,7 @@ export default function KPICards({ metrics }: KPICardsProps) {
         </div>
         <div className="mt-4">
           <span className="text-2xl font-bold text-slate-800 tracking-tight block">
-            {metrics.discountRate.toFixed(2)}%
+            {discountRate.toFixed(2)}%
           </span>
           <div className="flex items-center gap-1.5 mt-2">
             <span className="text-[10px] font-semibold text-slate-400 block truncate">

@@ -18,12 +18,12 @@ export const SAMPLE_STORES: StoreMaster[] = [
 
 export function getSampleWeeklySales(): RetailWeeklySales[] {
   const weeks = [
-    "2026-06-01",
-    "2026-06-08",
-    "2026-06-15",
-    "2026-06-22",
-    "2026-06-29",
-    "2026-07-06"
+    "01-06-2026",
+    "08-06-2026",
+    "15-06-2026",
+    "22-06-2026",
+    "29-06-2026",
+    "06-07-2026"
   ];
 
   const categories = ["Electronics", "Apparel", "Groceries", "Home Goods"];

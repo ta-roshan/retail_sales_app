@@ -9,6 +9,7 @@ import { read, utils } from "xlsx";
 import { Upload, FileSpreadsheet, CheckCircle2, AlertCircle, RefreshCw, FileDown } from "lucide-react";
 import { RetailWeeklySales, StoreMaster } from "../types";
 import { getStoreMasterCsvTemplate, getWeeklySalesCsvTemplate } from "../data";
+import { parseNumeric, normalizeDateToDDMMYYYY } from "../utils";
 
 interface DataIngestionZoneProps {
   onWeeklySalesLoaded: (data: RetailWeeklySales[]) => void;
@@ -72,25 +73,25 @@ export default function DataIngestionZone({
 
         const validData = jsonData.map((row: any) => {
           return {
-            week_start_date: String(row.week_start_date || ""),
-            region: String(row.region || ""),
-            store_id: String(row.store_id || ""),
-            store_name: String(row.store_name || ""),
-            city: String(row.city || ""),
-            store_format: String(row.store_format || ""),
-            product_category: String(row.product_category || ""),
-            footfall: Number(row.footfall ?? 0),
-            transactions: Number(row.transactions ?? 0),
-            units_sold: Number(row.units_sold ?? 0),
-            gross_sales: Number(row.gross_sales ?? 0),
-            discount_amount: Number(row.discount_amount ?? 0),
-            net_sales: Number(row.net_sales ?? 0),
-            sales_target: Number(row.sales_target ?? 0),
-            inventory_on_hand: Number(row.inventory_on_hand ?? 0),
-            stockouts: Number(row.stockouts ?? 0),
-            returns_amount: Number(row.returns_amount ?? 0),
-            customer_rating: Number(row.customer_rating ?? 0),
-            marketing_spend: Number(row.marketing_spend ?? 0),
+            week_start_date: normalizeDateToDDMMYYYY(row.week_start_date),
+            region: String(row.region || "").trim(),
+            store_id: String(row.store_id || "").trim(),
+            store_name: String(row.store_name || "").trim(),
+            city: String(row.city || "").trim(),
+            store_format: String(row.store_format || "").trim(),
+            product_category: String(row.product_category || "").trim(),
+            footfall: parseNumeric(row.footfall),
+            transactions: parseNumeric(row.transactions),
+            units_sold: parseNumeric(row.units_sold),
+            gross_sales: parseNumeric(row.gross_sales),
+            discount_amount: parseNumeric(row.discount_amount),
+            net_sales: parseNumeric(row.net_sales),
+            sales_target: parseNumeric(row.sales_target),
+            inventory_on_hand: parseNumeric(row.inventory_on_hand),
+            stockouts: parseNumeric(row.stockouts),
+            returns_amount: parseNumeric(row.returns_amount),
+            customer_rating: parseNumeric(row.customer_rating),
+            marketing_spend: parseNumeric(row.marketing_spend),
           };
         }) as RetailWeeklySales[];
 
@@ -174,25 +175,25 @@ export default function DataIngestionZone({
 
         const validData = results.data.map((row: any) => {
           return {
-            week_start_date: String(row.week_start_date || ""),
-            region: String(row.region || ""),
-            store_id: String(row.store_id || ""),
-            store_name: String(row.store_name || ""),
-            city: String(row.city || ""),
-            store_format: String(row.store_format || ""),
-            product_category: String(row.product_category || ""),
-            footfall: Number(row.footfall ?? 0),
-            transactions: Number(row.transactions ?? 0),
-            units_sold: Number(row.units_sold ?? 0),
-            gross_sales: Number(row.gross_sales ?? 0),
-            discount_amount: Number(row.discount_amount ?? 0),
-            net_sales: Number(row.net_sales ?? 0),
-            sales_target: Number(row.sales_target ?? 0),
-            inventory_on_hand: Number(row.inventory_on_hand ?? 0),
-            stockouts: Number(row.stockouts ?? 0),
-            returns_amount: Number(row.returns_amount ?? 0),
-            customer_rating: Number(row.customer_rating ?? 0),
-            marketing_spend: Number(row.marketing_spend ?? 0),
+            week_start_date: normalizeDateToDDMMYYYY(row.week_start_date),
+            region: String(row.region || "").trim(),
+            store_id: String(row.store_id || "").trim(),
+            store_name: String(row.store_name || "").trim(),
+            city: String(row.city || "").trim(),
+            store_format: String(row.store_format || "").trim(),
+            product_category: String(row.product_category || "").trim(),
+            footfall: parseNumeric(row.footfall),
+            transactions: parseNumeric(row.transactions),
+            units_sold: parseNumeric(row.units_sold),
+            gross_sales: parseNumeric(row.gross_sales),
+            discount_amount: parseNumeric(row.discount_amount),
+            net_sales: parseNumeric(row.net_sales),
+            sales_target: parseNumeric(row.sales_target),
+            inventory_on_hand: parseNumeric(row.inventory_on_hand),
+            stockouts: parseNumeric(row.stockouts),
+            returns_amount: parseNumeric(row.returns_amount),
+            customer_rating: parseNumeric(row.customer_rating),
+            marketing_spend: parseNumeric(row.marketing_spend),
           };
         }) as RetailWeeklySales[];
 

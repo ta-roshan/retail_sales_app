@@ -7,6 +7,7 @@ import React, { useState, useMemo } from "react";
 import { LayoutDashboard, FileDown, Download, AlertCircle, Info, Sparkles } from "lucide-react";
 import { RetailWeeklySales, StoreMaster, GlobalFilters } from "./types";
 import { SAMPLE_STORES, getSampleWeeklySales } from "./data";
+import { parseDateToTimestamp } from "./utils";
 
 // Sub-components
 import DataIngestionZone from "./components/DataIngestionZone";
@@ -86,7 +87,7 @@ export default function App() {
     const productCategoriesSet = new Set<string>();
 
     fullyResolvedWeeklySales.forEach((row) => {
-      if (row.week_start_date) weeksSet.add(row.week_start_date);
+      if (row.week_start_date && !row.week_start_date.toLowerCase().includes("invalid")) weeksSet.add(row.week_start_date);
       if (row.region) regionsSet.add(row.region);
       if (row.store_name) storesSet.add(row.store_name);
       if (row.city) citiesSet.add(row.city);
@@ -95,7 +96,7 @@ export default function App() {
     });
 
     return {
-      weeks: Array.from(weeksSet).sort(),
+      weeks: Array.from(weeksSet).sort((a, b) => parseDateToTimestamp(a) - parseDateToTimestamp(b)),
       regions: Array.from(regionsSet).sort(),
       stores: Array.from(storesSet).sort(),
       cities: Array.from(citiesSet).sort(),
